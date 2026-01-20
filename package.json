@@ -1,0 +1,9 @@
+{
+  "name": "image-proxy-server",
+  "version": "1.0.0",
+  "description": "Proxy server for image uploads",
+  "engines": {
+    "node": ">=18.x"
+  },
+  "dependencies": {}
+}
