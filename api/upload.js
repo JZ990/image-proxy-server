@@ -35,14 +35,22 @@ module.exports = async (req, res) => {
 
     console.log(`[INFO] 准备转发文件至目标API，文件名: ${filename}`);
 
-    // 6. 转发请求到您的Coze工作流API
+    // 6. 转发请求到您的Coze工作流API (根据错误信息修正格式)
     const targetResponse = await fetch('https://s54tdxkb8v.coze.site/run', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${API_TOKEN}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ file, filename, filetype }),
+      // 关键修改：将 file 字段包装成一个字典对象，符合 UploadFileInput 模型
+      body: JSON.stringify({
+        file: {
+          data: file,       // 原来的Base64字符串，现在作为 data 的值
+          filename: filename // 将文件名也放在这个字典里
+        },
+        // 根据您的Coze工作流设计，如果还需要其他顶层字段（如respID），请保留
+        // respID: req.body.respID
+      }),
     });
 
     const responseData = await targetResponse.json();
@@ -65,3 +73,4 @@ module.exports = async (req, res) => {
     });
   }
 };
+
