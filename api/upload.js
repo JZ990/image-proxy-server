@@ -45,13 +45,11 @@ module.exports = async (req, res) => {
       // 关键修改：将 file 字段包装成一个字典对象，符合 UploadFileInput 模型
 // 在 api/upload.js 中，找到转发请求的 body 部分，修改为：
       body: JSON.stringify({
-        file: {
-          // 将 base64 数据拼接成完整的 Data URL
-          url: `data:${filetype};base64,${file}`,
-          // 可选：保留 filename 等信息
-          filename: filename
-        }
-      }),
+        file: file, // Base64字符串
+        // 可以根据Coze API需要添加其他参数
+        filename: filename || 'uploaded_file',
+        filetype: filetype || 'image/jpeg'
+      })
     });
 
     const responseData = await targetResponse.json();
@@ -74,6 +72,7 @@ module.exports = async (req, res) => {
     });
   }
 };
+
 
 
 
