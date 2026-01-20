@@ -1,16 +1,7 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "api/upload.js",
-      "use": "@vercel/node"
+  "functions": {
+    "api/upload.js": {
+      "maxDuration": 30
     }
-  ],
-  "routes": [
-    {
-      "src": "/api/upload",
-      "dest": "/api/upload.js",
-      "methods": ["POST", "OPTIONS"]
-    }
-  ]
+  }
 }
