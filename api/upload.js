@@ -44,12 +44,13 @@ module.exports = async (req, res) => {
       },
       // 关键修改：将 file 字段包装成一个字典对象，符合 UploadFileInput 模型
       body: JSON.stringify({
-        file: {
-          data: file,       // 原来的Base64字符串，现在作为 data 的值
-          filename: filename // 将文件名也放在这个字典里
-        },
-        // 根据您的Coze工作流设计，如果还需要其他顶层字段（如respID），请保留
-        // respID: req.body.respID
+          file: { // 新的：将 file 字段包装成一个对象
+              data: file,    // 原来的Base64字符串
+              filename: filename
+          },
+          // 注意：如果Coze只需要file对象内的filename，外层的 filename 和 filetype 可以保留或移除，取决于其API设计。
+          filename: filename,
+          filetype: filetype
       }),
     });
 
@@ -73,4 +74,5 @@ module.exports = async (req, res) => {
     });
   }
 };
+
 
